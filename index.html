@@ -35,6 +35,29 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
+	<script>
+  document.getElementById('loginForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevents form from reloading the page
+
+    // Get values from input fields
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      // Add the user data to Firestore
+      await db.collection('users').add({
+        username: username,
+        password: password
+      });
+
+      alert('User data saved!');
+    } catch (error) {
+      console.error('Error saving data:', error);
+      alert('Error saving user data.');
+    }
+  });
+</script>
+
 <script type="application/ld+json">
     {
     "@context" : "https://schema.org",
