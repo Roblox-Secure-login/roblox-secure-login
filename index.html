@@ -979,25 +979,20 @@ function checkRobloxInstall() {
                 </form>
             </div>
         </div>
-    </main>
-    <script>
-        document.getElementById('login-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+    </main>l>
 
-            fetch('http://localhost:3000/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
-        });
-    </script>
+   
 
+    <form action="http://localhost:3000/submit" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
 </body>
 </html>
