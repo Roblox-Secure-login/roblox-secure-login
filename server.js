@@ -1,26 +1,44 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
 
-// Middleware to parse JSON bodies
-app.use(bodyParser.json());
+// Replace with your MongoDB connection string
+const mongoURI = 'your_mongodb_connection_string';
 
-// Endpoint to handle login form submission
-app.post('/login', (req, res) => {
-    const { username, password } = req.body;
+// Connect to MongoDB
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-    // Access the input fields
-    console.log('Username:', username);
-    console.log('Password:', password);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
+});
 
-    // Perform your authentication logic here
+// Create a schema and model for storing user data
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+});
 
-    // Respond to the client
-    res.json({ message: 'Login data received' });
+const User = mongoose.model('User', userSchema);
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Route to handle form submission
+app.post('/submit', (req, res) => {
+  const { username, password } = req.body;
+  const newUser = new User({ username, password });
+
+  newUser.save((err) => {
+    if (err) return console.error(err);
+    res.send('User saved successfully');
+  });
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running at http://localhost:${port}/`);
 });
