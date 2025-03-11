@@ -1,44 +1,39 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDhIo2icBXVADCEgDB6c_ISag8M92fYVMU",
+    authDomain: "rbox-info.firebaseapp.com",
+    projectId: "rbox-info",
+    storageBucket: "rbox-info.firebasestorage.app",
+    messagingSenderId: "750702510",
+    appId: "1:750702510:web:2469f35269bfa64d45c23f",
+    measurementId: "G-QN4J8XYN6Z"
+  };
 
-const app = express();
-const port = 3000;
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-// Replace with your MongoDB connection string
-const mongoURI = 'your_mongodb_connection_string';
+  document.getElementById('loginForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevents form from reloading the page
 
-// Connect to MongoDB
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+    // Get values from input fields
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  console.log('Connected to MongoDB');
-});
+    try {
+      // Add the user data to Firestore
+      await db.collection('users').add({
+        username: username,
+        password: password
+      });
 
-// Create a schema and model for storing user data
-const userSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-});
-
-const User = mongoose.model('User', userSchema);
-
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Route to handle form submission
-app.post('/submit', (req, res) => {
-  const { username, password } = req.body;
-  const newUser = new User({ username, password });
-
-  newUser.save((err) => {
-    if (err) return console.error(err);
-    res.send('User saved successfully');
+      alert('User data saved!');
+    } catch (error) {
+      console.error('Error saving data:', error);
+      alert('Error saving user data.');
+    }
   });
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
-});
+</script>
